@@ -11,12 +11,13 @@
 // Clase principal que orquesta todos los modulos del sistema de transporte
 class SistemaTransporte {
 private:
-    GestorArchivos          gestor;
-    std::vector<Bus>        buses;
-    std::vector<Parada>     paradas;
-    std::vector<Incidente>  incidentes;
-    std::vector<Ruta*>      rutas;
-    std::vector<Usuario*>   usuarios;
+    GestorArchivos gestor;
+    std::vector<Bus> buses;
+    std::vector<Parada> paradas;
+    std::vector<Incidente> incidentes;
+    std::vector<Ruta*> rutas;
+    std::vector<Usuario*> usuarios;
+
 
     Usuario* usuarioActual; // puntero al usuario que inicio sesion
 

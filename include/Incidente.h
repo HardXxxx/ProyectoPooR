@@ -4,7 +4,7 @@
 // Registra un incidente reportado en el sistema (mecanico, accidente, etc.)
 class Incidente {
 private:
-    int         idIncidente;
+    int idIncidente;
     std::string descripcion;
     std::string tipo;    // "Mecanico", "Accidente", etc.
     std::string estado;  // "Abierto" o "Cerrado"
@@ -15,10 +15,11 @@ public:
               const std::string& est);
 
     // Getters
-    int         getIdIncidente()  const;
-    std::string getDescripcion()  const;
-    std::string getTipo()         const;
-    std::string getEstado()       const;
+    int getIdIncidente() const;
+    std::string getDescripcion() const;
+    std::string getTipo() const;
+    std::string getEstado() const;
+
 
     // Setters
     void setIdIncidente(int id);

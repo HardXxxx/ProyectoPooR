@@ -4,11 +4,12 @@
 // Representa a un estudiante universitario con datos academicos
 class Estudiante : public Usuario {
 private:
-    int         codigoEstudiantil;
+    int codigoEstudiantil;
     std::string facultad;
     std::string programa;
-    int         semestre;
-    bool        carnetActivo;
+    int semestre;
+    bool carnetActivo;
+
 
 public:
     Estudiante();
@@ -17,11 +18,11 @@ public:
                const std::string& prog, int sem, bool carnet);
 
     // Getters
-    int         getCodigoEstudiantil() const;
-    std::string getFacultad()          const;
-    std::string getPrograma()          const;
-    int         getSemestre()          const;
-    bool        isCarnetActivo()       const;
+    int getCodigoEstudiantil() const;
+    std::string getFacultad() const;
+    std::string getPrograma() const;
+    int getSemestre() const;
+    bool isCarnetActivo() const;
 
     // Setters
     void setCodigoEstudiantil(int cod);
@@ -30,6 +31,6 @@ public:
     void setSemestre(int sem);
     void setCarnetActivo(bool activo);
 
-    std::string getEncabezado()       const override;
-    bool        validarCodigo(int c)  const override;
+    std::string getEncabezado() const override;
+    bool validarCodigo(int c)  const override;
 };

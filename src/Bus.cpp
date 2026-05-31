@@ -12,18 +12,19 @@ Bus::~Bus() {
     delete ubicacion;
 }
 
-int         Bus::getIdBus()            const { return idBus;           }
-std::string Bus::getPlaca()            const { return placa;           }
-int         Bus::getCapacidadMaxima()  const { return capacidadMaxima; }
-int         Bus::getCapacidadActual()  const { return capacidadActual; }
-bool        Bus::getEstado()           const { return estado;          }
-UbicacionGPS* Bus::getUbicacion()      const { return ubicacion;       }
+int Bus::getIdBus() const { return idBus; }
+std::string Bus::getPlaca() const { return placa; }
+int Bus::getCapacidadMaxima() const { return capacidadMaxima; }
+int Bus::getCapacidadActual() const { return capacidadActual; }
+bool Bus::getEstado() const { return estado; }
+UbicacionGPS* Bus::getUbicacion() const { return ubicacion; }
 
-void Bus::setIdBus(int id)                    { idBus           = id;  }
-void Bus::setPlaca(const std::string& p)      { placa           = p;   }
-void Bus::setCapacidadMaxima(int cap)         { capacidadMaxima = cap; }
-void Bus::setCapacidadActual(int cap)         { capacidadActual = cap; }
-void Bus::setEstado(bool est)                 { estado          = est; }
+void Bus::setIdBus(int id) { idBus = id; }
+void Bus::setPlaca(const std::string& p) { placa = p; }
+void Bus::setCapacidadMaxima(int cap) { capacidadMaxima = cap; }
+void Bus::setCapacidadActual(int cap) { capacidadActual = cap; }
+void Bus::setEstado(bool est) { estado = est; }
+
 
 // Inicializa o actualiza el puntero de ubicacion GPS con nuevas coordenadas
 void Bus::setUbicacion(double lat, double lon, double alt, double vel) {

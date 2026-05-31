@@ -7,11 +7,11 @@
 // Clase base para todos los tipos de ruta del sistema
 class Ruta {
 private:
-    int         idRuta;
+    int idRuta;
     std::string nombre;
     std::string origen;
     std::string destino;
-    bool        estado;
+    bool estado;
     std::string tipo;
     std::string puntoSalida;
     HorarioRuta horario;
@@ -25,13 +25,14 @@ public:
     virtual ~Ruta() {}
 
     // Getters
-    int          getIdRuta()      const;
-    std::string  getNombre()      const;
-    std::string  getOrigen()      const;
-    std::string  getDestino()     const;
-    bool         getEstado()      const;
-    std::string  getTipo()        const;
-    std::string  getPuntoSalida() const;
+    int getIdRuta() const;
+    std::string getNombre() const;
+    std::string getOrigen() const;
+    std::string getDestino() const;
+    bool getEstado() const;
+    std::string getTipo() const;
+    std::string getPuntoSalida() const;
+
     HorarioRuta& getHorario();
     const std::vector<int>& getIdsParadas() const;
 

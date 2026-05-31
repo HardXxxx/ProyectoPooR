@@ -4,10 +4,10 @@
 // Representa a un conductor con su turno y bus asignado
 class Conductor : public Usuario {
 private:
-    int         codigoOperador;
+    int codigoOperador;
     std::string experiencia;
     std::string turno;
-    int         busAsignado; // idBus del bus que opera
+    int busAsignado; // idBus del bus que opera
 
 public:
     Conductor();
@@ -16,10 +16,10 @@ public:
               const std::string& turno, int busId);
 
     // Getters
-    int         getCodigoOperador() const;
-    std::string getExperiencia()    const;
-    std::string getTurno()          const;
-    int         getBusAsignado()    const;
+    int getCodigoOperador() const;
+    std::string getExperiencia() const;
+    std::string getTurno() const;
+    int getBusAsignado() const;
 
     // Setters
     void setCodigoOperador(int cod);
@@ -27,6 +27,6 @@ public:
     void setTurno(const std::string& turno);
     void setBusAsignado(int busId);
 
-    std::string getEncabezado()      const override;
-    bool        validarCodigo(int c) const override;
+    std::string getEncabezado() const override;
+    bool validarCodigo(int c) const override;
 };

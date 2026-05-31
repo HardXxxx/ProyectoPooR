@@ -5,12 +5,13 @@
 // Representa una parada fisica dentro de una ruta
 class Parada {
 private:
-    int         idParada;
+    int idParada;
     std::string nombre;
-    Coordenada  ubicacion;
-    double      altitud;
-    bool        estado;       // true = activa
-    int         ordenEnRuta;  // posicion dentro de la ruta
+    Coordenada ubicacion;
+    double altitud;
+    bool estado;      // true = activa
+    int ordenEnRuta;  // posición dentro de la ruta
+
 
 public:
     Parada();
@@ -18,12 +19,13 @@ public:
            double alt, bool est, int orden);
 
     // Getters
-    int         getIdParada()    const;
-    std::string getNombre()      const;
-    Coordenada  getUbicacion()   const;
-    double      getAltitud()     const;
-    bool        getEstado()      const;
-    int         getOrdenEnRuta() const;
+    int getIdParada() const;
+    std::string getNombre() const;
+    Coordenada getUbicacion() const;
+    double getAltitud() const;
+    bool getEstado() const;
+    int getOrdenEnRuta() const;
+
 
     // Setters
     void setIdParada(int id);

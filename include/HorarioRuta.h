@@ -12,8 +12,8 @@ public:
     HorarioRuta();
 
     // Getters
-    const std::vector<std::string>& getSalidasBarrio()     const;
-    const std::vector<std::string>& getSalidasUnillanos()  const;
+    const std::vector<std::string>& getSalidasBarrio() const;
+    const std::vector<std::string>& getSalidasUnillanos() const;
 
     // Setters
     void setSalidasBarrio(const std::vector<std::string>& salidas);

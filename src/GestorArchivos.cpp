@@ -207,21 +207,22 @@ std::vector<Usuario*> GestorArchivos::cargarUsuarios() const {
     bool carnetActivo = false;
 
     while (std::getline(archivo, linea)) {
-        if (linea.find("\"idUsuario\"")         != std::string::npos) id        = (int)extraerNumero(linea, "idUsuario");
-        if (linea.find("\"nombre\"")            != std::string::npos) nombre    = extraerString(linea, "nombre");
-        if (linea.find("\"telefono\"")          != std::string::npos) telefono  = extraerString(linea, "telefono");
-        if (linea.find("\"correo\"")            != std::string::npos) correo    = extraerString(linea, "correo");
-        if (linea.find("\"tipo\"")              != std::string::npos) tipo      = extraerString(linea, "tipo");
-        if (linea.find("\"facultad\"")          != std::string::npos) facultad  = extraerString(linea, "facultad");
-        if (linea.find("\"programa\"")          != std::string::npos) programa  = extraerString(linea, "programa");
-        if (linea.find("\"experiencia\"")       != std::string::npos) experiencia = extraerString(linea, "experiencia");
-        if (linea.find("\"turno\"")             != std::string::npos) turno     = extraerString(linea, "turno");
-        if (linea.find("\"semestre\"")          != std::string::npos) semestre  = (int)extraerNumero(linea, "semestre");
-        if (linea.find("\"codigoEstudiantil\"") != std::string::npos) codEst   = (int)extraerNumero(linea, "codigoEstudiantil");
-        if (linea.find("\"codigoAdmin\"")       != std::string::npos) codAdmin = (int)extraerNumero(linea, "codigoAdmin");
-        if (linea.find("\"codigoOperador\"")    != std::string::npos) codOp    = (int)extraerNumero(linea, "codigoOperador");
-        if (linea.find("\"busAsignado\"")       != std::string::npos) busId    = (int)extraerNumero(linea, "busAsignado");
-        if (linea.find("\"carnetActivo\"")      != std::string::npos) carnetActivo = extraerBool(linea, "carnetActivo");
+        if (linea.find("\"idUsuario\"") != std::string::npos) id = (int)extraerNumero(linea, "idUsuario");
+        if (linea.find("\"nombre\"") != std::string::npos) nombre = extraerString(linea, "nombre");
+        if (linea.find("\"telefono\"") != std::string::npos) telefono = extraerString(linea, "telefono");
+        if (linea.find("\"correo\"") != std::string::npos) correo = extraerString(linea, "correo");
+        if (linea.find("\"tipo\"") != std::string::npos) tipo = extraerString(linea, "tipo");
+        if (linea.find("\"facultad\"") != std::string::npos) facultad = extraerString(linea, "facultad");
+        if (linea.find("\"programa\"") != std::string::npos) programa = extraerString(linea, "programa");
+        if (linea.find("\"experiencia\"") != std::string::npos) experiencia = extraerString(linea, "experiencia");
+        if (linea.find("\"turno\"") != std::string::npos) turno = extraerString(linea, "turno");
+        if (linea.find("\"semestre\"") != std::string::npos) semestre = (int)extraerNumero(linea, "semestre");
+        if (linea.find("\"codigoEstudiantil\"") != std::string::npos) codEst = (int)extraerNumero(linea, "codigoEstudiantil");
+        if (linea.find("\"codigoAdmin\"") != std::string::npos) codAdmin = (int)extraerNumero(linea, "codigoAdmin");
+        if (linea.find("\"codigoOperador\"") != std::string::npos) codOp = (int)extraerNumero(linea, "codigoOperador");
+        if (linea.find("\"busAsignado\"") != std::string::npos) busId = (int)extraerNumero(linea, "busAsignado");
+        if (linea.find("\"carnetActivo\"") != std::string::npos) carnetActivo = extraerBool(linea, "carnetActivo");
+
 
         // Al cerrar el objeto JSON se construye el usuario segun su tipo
         if (linea.find("}") != std::string::npos && id > 0 && !nombre.empty()) {

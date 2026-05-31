@@ -17,6 +17,6 @@ public:
     // Setters
     void setCodigoAdmin(int cod);
 
-    std::string getEncabezado()      const override;
-    bool        validarCodigo(int c) const override;
+    std::string getEncabezado() const override;
+    bool validarCodigo(int c) const override;
 };

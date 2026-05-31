@@ -5,11 +5,11 @@
 // Representa un bus de la flota con su ubicacion GPS en tiempo real
 class Bus {
 private:
-    int          idBus;
+    int idBus;
     std::string  placa;
-    int          capacidadMaxima;
-    int          capacidadActual;
-    bool         estado;          // true = activo
+    int capacidadMaxima;
+    int capacidadActual;
+    bool estado;          // true = activo
     UbicacionGPS* ubicacion;      // puntero a la ubicacion GPS actual del bus
 
 public:
@@ -18,12 +18,12 @@ public:
     ~Bus();
 
     // Getters
-    int          getIdBus()           const;
-    std::string  getPlaca()           const;
-    int          getCapacidadMaxima() const;
-    int          getCapacidadActual() const;
-    bool         getEstado()          const;
-    UbicacionGPS* getUbicacion()      const;
+    int getIdBus() const;
+    std::string  getPlaca() const;
+    int getCapacidadMaxima() const;
+    int getCapacidadActual() const;
+    bool getEstado() const;
+    UbicacionGPS* getUbicacion() const;
 
     // Setters
     void setIdBus(int id);

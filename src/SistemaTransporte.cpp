@@ -15,9 +15,8 @@
 // Ancho de la consola para los separadores
 static const int ANCHO = 80;
 
-// -------------------------------------------------------------------------
 // Constructor y destructor
-// -------------------------------------------------------------------------
+
 
 SistemaTransporte::SistemaTransporte(const std::string& dirData)
     : gestor(dirData), usuarioActual(nullptr) {}
@@ -28,9 +27,7 @@ SistemaTransporte::~SistemaTransporte() {
     for (Usuario* u : usuarios) delete u;
 }
 
-// -------------------------------------------------------------------------
 // Utilidades de consola con Windows.h
-// -------------------------------------------------------------------------
 
 static void limpiarPantalla() {
     COORD coordInicio = { 0, 0 };
@@ -73,9 +70,9 @@ void SistemaTransporte::imprimirEncabezado() const {
     imprimirSeparador();
 }
 
-// -------------------------------------------------------------------------
+
 // Hora y fecha real del sistema (avanza en tiempo real)
-// -------------------------------------------------------------------------
+
 
 std::string SistemaTransporte::horaActual() const {
     SYSTEMTIME st;
@@ -97,9 +94,7 @@ std::string SistemaTransporte::fechaActual() const {
     return ss.str();
 }
 
-// -------------------------------------------------------------------------
 // Busquedas internas por ID / placa
-// -------------------------------------------------------------------------
 
 Bus* SistemaTransporte::buscarBusPorId(int id) {
     for (Bus& b : buses)
@@ -125,9 +120,7 @@ std::vector<Incidente*> SistemaTransporte::incidentesDeBus(const std::string& pl
     return resultado;
 }
 
-// -------------------------------------------------------------------------
 // Muestra distancia y tiempo estimado del bus a cada parada de la ruta
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::mostrarProximidadBus(Bus* bus, Ruta* ruta) {
     if (!bus || !ruta) return;
@@ -169,9 +162,9 @@ void SistemaTransporte::mostrarProximidadBus(Bus* bus, Ruta* ruta) {
     fin_proximidad:;
 }
 
-// -------------------------------------------------------------------------
+
 // Menu principal de seleccion de perfil
-// -------------------------------------------------------------------------
+
 
 int SistemaTransporte::mostrarMenuPrincipal() {
     limpiarPantalla();
@@ -215,9 +208,7 @@ Usuario* SistemaTransporte::autenticarUsuario(int tipo) {
     return nullptr;
 }
 
-// -------------------------------------------------------------------------
 // Panel del Estudiante (Modificado: Visualización encapsulada y Reserva)
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::panelEstudiante() {
     while (true) {
@@ -341,9 +332,7 @@ void SistemaTransporte::panelEstudiante() {
     }
 }
 
-// -------------------------------------------------------------------------
 // Panel del Conductor: bus asignado, ruta, horarios e incidentes
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::panelConductor() {
     Conductor* cond = static_cast<Conductor*>(usuarioActual);
@@ -446,9 +435,7 @@ void SistemaTransporte::panelConductor() {
     }
 }
 
-// -------------------------------------------------------------------------
 // Panel del Administrador: resumen global y sub-menus de modificacion
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::panelAdministrador() {
     while (true) {
@@ -505,9 +492,7 @@ void SistemaTransporte::panelAdministrador() {
     }
 }
 
-// -------------------------------------------------------------------------
 // Sub-menus del Administrador
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::gestionarRutas() {
     limpiarPantalla();
@@ -669,9 +654,7 @@ void SistemaTransporte::gestionarIncidentes() {
     Sleep(1500);
 }
 
-// -------------------------------------------------------------------------
 // Punto de arranque del sistema
-// -------------------------------------------------------------------------
 
 void SistemaTransporte::iniciar() {
     buses      = gestor.cargarBuses();

@@ -4,7 +4,7 @@
 // Clase base abstracta para todos los tipos de usuario del sistema
 class Usuario {
 private:
-    int    idUsuario;
+    int idUsuario;
     std::string nombre;
     std::string telefono;
     std::string correo;
@@ -17,11 +17,12 @@ public:
     virtual ~Usuario() {}
 
     // Getters
-    int         getIdUsuario()  const;
-    std::string getNombre()     const;
-    std::string getTelefono()   const;
-    std::string getCorreo()     const;
-    std::string getTipo()       const;
+    int getIdUsuario() const;
+    std::string getNombre() const;
+    std::string getTelefono() const;
+    std::string getCorreo() const;
+    std::string getTipo() const;
+
 
     // Setters
     void setIdUsuario(int id);

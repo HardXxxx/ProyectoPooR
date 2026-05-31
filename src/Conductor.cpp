@@ -8,15 +8,16 @@ Conductor::Conductor(int id, const std::string& nom, const std::string& tel,
     : Usuario(id, nom, tel, cor, "Conductor"),
       codigoOperador(codOp), experiencia(exp), turno(tur), busAsignado(busId) {}
 
-int         Conductor::getCodigoOperador() const { return codigoOperador; }
-std::string Conductor::getExperiencia()    const { return experiencia;    }
-std::string Conductor::getTurno()          const { return turno;          }
-int         Conductor::getBusAsignado()    const { return busAsignado;    }
+int Conductor::getCodigoOperador() const { return codigoOperador; }
+std::string Conductor::getExperiencia() const { return experiencia; }
+std::string Conductor::getTurno() const { return turno; }
+int Conductor::getBusAsignado() const { return busAsignado; }
 
-void Conductor::setCodigoOperador(int cod)           { codigoOperador = cod; }
-void Conductor::setExperiencia(const std::string& e) { experiencia    = e;   }
-void Conductor::setTurno(const std::string& t)       { turno          = t;   }
-void Conductor::setBusAsignado(int busId)             { busAsignado    = busId; }
+void Conductor::setCodigoOperador(int cod) { codigoOperador = cod; }
+void Conductor::setExperiencia(const std::string& e) { experiencia = e; }
+void Conductor::setTurno(const std::string& t) { turno = t; }
+void Conductor::setBusAsignado(int busId) { busAsignado = busId; }
+
 
 std::string Conductor::getEncabezado() const {
     return "Usuario: " + getNombre() + " (Conductor - Turno: " + turno + ")";
