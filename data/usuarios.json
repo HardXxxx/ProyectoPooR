@@ -1,0 +1,46 @@
+{
+  "usuarios": [
+    {
+      "idUsuario": 1001,
+      "nombre": "Carlos García",
+      "telefono": "3105554321",
+      "correo": "carlos@transporte.com",
+      "tipo": "Conductor",
+      "codigoOperador": 101,
+      "experiencia": "12 años",
+      "turno": "Mañana",
+      "busAsignado": 1
+    },
+    {
+      "idUsuario": 1002,
+      "nombre": "Juan Pérez",
+      "telefono": "3105554322",
+      "correo": "juan@transporte.com",
+      "tipo": "Conductor",
+      "codigoOperador": 102,
+      "experiencia": "8 años",
+      "turno": "Tarde",
+      "busAsignado": 2
+    },
+    {
+      "idUsuario": 5001,
+      "nombre": "María López",
+      "telefono": "3105554000",
+      "correo": "admin@transporte.com",
+      "tipo": "Administrador",
+      "codigoAdmin": 1    
+    },
+    {
+      "idUsuario": 6001,
+      "nombre": "Pedro Rodríguez",
+      "telefono": "3105554100",
+      "correo": "pedro@univ.edu.co",
+      "tipo": "Estudiante",
+      "codigoEstudiantil": 2024001,
+      "facultad": "Ingeniería",
+      "programa": "Sistemas",
+      "semestre": 6,
+      "carnetActivo": true
+    }
+  ]
+}

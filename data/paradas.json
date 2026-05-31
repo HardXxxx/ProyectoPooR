@@ -1,0 +1,739 @@
+[
+  {
+    "idParada": 1,
+    "nombre": "Frente a la estación de servicio Primax de La Coralina",
+    "ubicacion": {
+      "latitud": 4.14527,
+      "longitud": -73.652037,
+      "altitud": 463
+    },
+    "estado": true,
+    "ordenEnRuta": 1
+  },
+  {
+    "idParada": 2,
+    "nombre": "Éxito Express de Rosa Blanca (frente al CDA Andino)",
+    "ubicacion": {
+      "latitud": 4.14335,
+      "longitud": -73.650037,
+      "altitud": 465
+    },
+    "estado": true,
+    "ordenEnRuta": 2
+  },
+  {
+    "idParada": 3,
+    "nombre": "Diag. Estación de servicio Texaco frente al Monumento al Coleo",
+    "ubicacion": {
+      "latitud": 4.141974,
+      "longitud": -73.648718,
+      "altitud": 465
+    },
+    "estado": true,
+    "ordenEnRuta": 3
+  },
+  {
+    "idParada": 4,
+    "nombre": "Aptos. frente a La Toyota",
+    "ubicacion": {
+      "latitud": 4.139832,
+      "longitud": -73.647007,
+      "altitud": 466
+    },
+    "estado": true,
+    "ordenEnRuta": 4
+  },
+  {
+    "idParada": 5,
+    "nombre": "Droguería Providencia",
+    "ubicacion": {
+      "latitud": 4.138119,
+      "longitud": -73.645373,
+      "altitud": 467
+    },
+    "estado": true,
+    "ordenEnRuta": 5
+  },
+  {
+    "idParada": 6,
+    "nombre": "Hotel Rosado",
+    "ubicacion": {
+      "latitud": 4.136667,
+      "longitud": -73.643718,
+      "altitud": 467
+    },
+    "estado": true,
+    "ordenEnRuta": 6
+  },
+  {
+    "idParada": 7,
+    "nombre": "Iglesia Santa María Reina (solo se hace de subida a La Grama)",
+    "ubicacion": {
+      "latitud": 4.135088,
+      "longitud": -73.64218,
+      "altitud": 469
+    },
+    "estado": true,
+    "ordenEnRuta": 7
+  },
+  {
+    "idParada": 8,
+    "nombre": "Panadería frente al lavadero Estero",
+    "ubicacion": {
+      "latitud": 4.133321,
+      "longitud": -73.640369,
+      "altitud": 467
+    },
+    "estado": true,
+    "ordenEnRuta": 8
+  },
+  {
+    "idParada": 9,
+    "nombre": "Esquina parque Mi Llanura",
+    "ubicacion": {
+      "latitud": 4.13174,
+      "longitud": -73.638726,
+      "altitud": 467
+    },
+    "estado": true,
+    "ordenEnRuta": 9
+  },
+  {
+    "idParada": 10,
+    "nombre": "Glorieta Terminal",
+    "ubicacion": {
+      "latitud": 4.129598,
+      "longitud": -73.636826,
+      "altitud": 469
+    },
+    "estado": true,
+    "ordenEnRuta": 10
+  },
+  {
+    "idParada": 11,
+    "nombre": "Montallanatas Alto El Pinilla",
+    "ubicacion": {
+      "latitud": 4.129954,
+      "longitud": -73.636885,
+      "altitud": 469
+    },
+    "estado": true,
+    "ordenEnRuta": 11
+  },
+  {
+    "idParada": 12,
+    "nombre": "Frente a La Policía Metropolitana",
+    "ubicacion": {
+      "latitud": 4.127565,
+      "longitud": -73.634804,
+      "altitud": 470
+    },
+    "estado": true,
+    "ordenEnRuta": 12
+  },
+  {
+    "idParada": 13,
+    "nombre": "Entrada a Kirpas en los paraderos públicos",
+    "ubicacion": {
+      "latitud": 4.125022,
+      "longitud": -73.632426,
+      "altitud": 471
+    },
+    "estado": true,
+    "ordenEnRuta": 13
+  },
+  {
+    "idParada": 14,
+    "nombre": "Lavadero 24 hrs",
+    "ubicacion": {
+      "latitud": 4.122424,
+      "longitud": -73.630126,
+      "altitud": 468
+    },
+    "estado": true,
+    "ordenEnRuta": 14
+  },
+  {
+    "idParada": 15,
+    "nombre": "Pan Rolo",
+    "ubicacion": {
+      "latitud": 4.119778,
+      "longitud": -73.628077,
+      "altitud": 469
+    },
+    "estado": true,
+    "ordenEnRuta": 15
+  },
+  {
+    "idParada": 16,
+    "nombre": "Parque de Los Estudiantes",
+    "ubicacion": {
+      "latitud": 4.117309,
+      "longitud": -73.625914,
+      "altitud": 470
+    },
+    "estado": true,
+    "ordenEnRuta": 16
+  },
+  {
+    "idParada": 17,
+    "nombre": "Unicentro paradero buses públicos",
+    "ubicacion": {
+      "latitud": 4.115039,
+      "longitud": -73.623525,
+      "altitud": 471
+    },
+    "estado": true,
+    "ordenEnRuta": 17
+  },
+  {
+    "idParada": 18,
+    "nombre": "Tecniguayas",
+    "ubicacion": {
+      "latitud": 4.112355,
+      "longitud": -73.621317,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 18
+  },
+  {
+    "idParada": 19,
+    "nombre": "Frente al Colegio Industrial",
+    "ubicacion": {
+      "latitud": 4.112574,
+      "longitud": -73.621145,
+      "altitud": 471
+    },
+    "estado": true,
+    "ordenEnRuta": 19
+  },
+  {
+    "idParada": 20,
+    "nombre": "Paradero de buses de Makro",
+    "ubicacion": {
+      "latitud": 4.110086,
+      "longitud": -73.619197,
+      "altitud": 472
+    },
+    "estado": true,
+    "ordenEnRuta": 20
+  },
+  {
+    "idParada": 21,
+    "nombre": "Paradero de servicio urbano de La Alborada",
+    "ubicacion": {
+      "latitud": 4.107688,
+      "longitud": -73.616787,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 21
+  },
+  {
+    "idParada": 22,
+    "nombre": "Universidad Cooperativa de Colombia",
+    "ubicacion": {
+      "latitud": 4.105007,
+      "longitud": -73.614514,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 22
+  },
+  {
+    "idParada": 23,
+    "nombre": "Estación de servicios Primax Ocoa",
+    "ubicacion": {
+      "latitud": 4.10225,
+      "longitud": -73.612748,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 23
+  },
+  {
+    "idParada": 24,
+    "nombre": "Entrada Barcelona",
+    "ubicacion": {
+      "latitud": 4.099741,
+      "longitud": -73.610487,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 24
+  },
+  {
+    "idParada": 25,
+    "nombre": "Entrada biblioteca Cofrem",
+    "ubicacion": {
+      "latitud": 4.097517,
+      "longitud": -73.608264,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 25
+  },
+  {
+    "idParada": 26,
+    "nombre": "Fresilandia",
+    "ubicacion": {
+      "latitud": 4.094748,
+      "longitud": -73.605793,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 26
+  },
+  {
+    "idParada": 27,
+    "nombre": "Puente peatonal del Sikuani",
+    "ubicacion": {
+      "latitud": 4.094682,
+      "longitud": -73.606127,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 27
+  },
+  {
+    "idParada": 28,
+    "nombre": "Paradero servicio público de aptos. Cantarrana",
+    "ubicacion": {
+      "latitud": 4.091681,
+      "longitud": -73.603708,
+      "altitud": 480
+    },
+    "estado": true,
+    "ordenEnRuta": 28
+  },
+  {
+    "idParada": 29,
+    "nombre": "Bomba de Covisan",
+    "ubicacion": {
+      "latitud": 4.08875,
+      "longitud": -73.60164,
+      "altitud": 482
+    },
+    "estado": true,
+    "ordenEnRuta": 29
+  },
+  {
+    "idParada": 30,
+    "nombre": "Parqueadero frente aptos. del Salitre",
+    "ubicacion": {
+      "latitud": 4.085805,
+      "longitud": -73.599455,
+      "altitud": 479
+    },
+    "estado": true,
+    "ordenEnRuta": 30
+  },
+  {
+    "idParada": 31,
+    "nombre": "Apartamentos Amarilo via al Campanario",
+    "ubicacion": {
+      "latitud": 4.082605,
+      "longitud": -73.596936,
+      "altitud": 483
+    },
+    "estado": true,
+    "ordenEnRuta": 31
+  },
+  {
+    "idParada": 32,
+    "nombre": "Asadero frente al Campanario",
+    "ubicacion": {
+      "latitud": 4.079761,
+      "longitud": -73.594968,
+      "altitud": 482
+    },
+    "estado": true,
+    "ordenEnRuta": 32
+  },
+  {
+    "idParada": 33,
+    "nombre": "Entrada mega colegio San Antonio",
+    "ubicacion": {
+      "latitud": 4.077048,
+      "longitud": -73.592485,
+      "altitud": 485
+    },
+    "estado": true,
+    "ordenEnRuta": 33
+  },
+  {
+    "idParada": 34,
+    "nombre": "Frente a la Policia Metropolitana",
+    "ubicacion": {
+      "latitud": 4.07698,
+      "longitud": -73.592744,
+      "altitud": 484
+    },
+    "estado": true,
+    "ordenEnRuta": 34
+  },
+  {
+    "idParada": 35,
+    "nombre": "Kirpan panadería",
+    "ubicacion": {
+      "latitud": 4.080682,
+      "longitud": -73.5956,
+      "altitud": 481
+    },
+    "estado": true,
+    "ordenEnRuta": 35
+  },
+  {
+    "idParada": 36,
+    "nombre": "Lavadero 24 hras",
+    "ubicacion": {
+      "latitud": 4.084452,
+      "longitud": -73.598931,
+      "altitud": 481
+    },
+    "estado": true,
+    "ordenEnRuta": 36
+  },
+  {
+    "idParada": 37,
+    "nombre": "Frente a Pan Rolo",
+    "ubicacion": {
+      "latitud": 4.08815,
+      "longitud": -73.601628,
+      "altitud": 481
+    },
+    "estado": true,
+    "ordenEnRuta": 37
+  },
+  {
+    "idParada": 38,
+    "nombre": "Mazorcadas frente al edificio de la Fiscalía",
+    "ubicacion": {
+      "latitud": 4.091845,
+      "longitud": -73.604972,
+      "altitud": 477
+    },
+    "estado": true,
+    "ordenEnRuta": 38
+  },
+  {
+    "idParada": 39,
+    "nombre": "Paradero de servicio publico frente a la pizzeria Domino's",
+    "ubicacion": {
+      "latitud": 4.095961,
+      "longitud": -73.607906,
+      "altitud": 477
+    },
+    "estado": true,
+    "ordenEnRuta": 39
+  },
+  {
+    "idParada": 40,
+    "nombre": "Droguería La Rebaja frente a Sipote Malteada",
+    "ubicacion": {
+      "latitud": 4.099615,
+      "longitud": -73.611155,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 40
+  },
+  {
+    "idParada": 41,
+    "nombre": "Puesto de salud frente a Olímpica",
+    "ubicacion": {
+      "latitud": 4.103468,
+      "longitud": -73.614308,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 41
+  },
+  {
+    "idParada": 42,
+    "nombre": "Semáforo del Manantial",
+    "ubicacion": {
+      "latitud": 4.107142,
+      "longitud": -73.617695,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 42
+  },
+  {
+    "idParada": 43,
+    "nombre": "Semáforo de la morgue",
+    "ubicacion": {
+      "latitud": 4.110678,
+      "longitud": -73.620349,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 43
+  },
+  {
+    "idParada": 44,
+    "nombre": "Motores Kumis",
+    "ubicacion": {
+      "latitud": 4.114875,
+      "longitud": -73.623778,
+      "altitud": 470
+    },
+    "estado": true,
+    "ordenEnRuta": 44
+  },
+  {
+    "idParada": 45,
+    "nombre": "Colanta",
+    "ubicacion": {
+      "latitud": 4.118689,
+      "longitud": -73.626577,
+      "altitud": 469
+    },
+    "estado": true,
+    "ordenEnRuta": 45
+  },
+  {
+    "idParada": 46,
+    "nombre": "Semáforo de los aptos. Cerro Campestre",
+    "ubicacion": {
+      "latitud": 4.118493,
+      "longitud": -73.627015,
+      "altitud": 472
+    },
+    "estado": true,
+    "ordenEnRuta": 46
+  },
+  {
+    "idParada": 47,
+    "nombre": "El Campanario",
+    "ubicacion": {
+      "latitud": 4.109633,
+      "longitud": -73.623602,
+      "altitud": 472
+    },
+    "estado": true,
+    "ordenEnRuta": 47
+  },
+  {
+    "idParada": 48,
+    "nombre": "Mega colegio San Antonio",
+    "ubicacion": {
+      "latitud": 4.100525,
+      "longitud": -73.620151,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 48
+  },
+  {
+    "idParada": 49,
+    "nombre": "Frente a la Policía",
+    "ubicacion": {
+      "latitud": 4.091462,
+      "longitud": -73.616794,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 49
+  },
+  {
+    "idParada": 50,
+    "nombre": "Paradero de Kirpan",
+    "ubicacion": {
+      "latitud": 4.082615,
+      "longitud": -73.613416,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 50
+  },
+  {
+    "idParada": 51,
+    "nombre": "Lavadero 24 hras",
+    "ubicacion": {
+      "latitud": 4.073748,
+      "longitud": -73.609808,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 51
+  },
+  {
+    "idParada": 52,
+    "nombre": "Pan Rolo",
+    "ubicacion": {
+      "latitud": 4.064509,
+      "longitud": -73.606689,
+      "altitud": 479
+    },
+    "estado": true,
+    "ordenEnRuta": 52
+  },
+  {
+    "idParada": 53,
+    "nombre": "Boutique Revival",
+    "ubicacion": {
+      "latitud": 4.064419,
+      "longitud": -73.606456,
+      "altitud": 479
+    },
+    "estado": true,
+    "ordenEnRuta": 53
+  },
+  {
+    "idParada": 54,
+    "nombre": "Esquina Inmobiliaria Casa Jerez",
+    "ubicacion": {
+      "latitud": 4.062789,
+      "longitud": -73.609329,
+      "altitud": 480
+    },
+    "estado": true,
+    "ordenEnRuta": 54
+  },
+  {
+    "idParada": 55,
+    "nombre": "Esquina de la droguería de la Calle 37-45",
+    "ubicacion": {
+      "latitud": 4.061222,
+      "longitud": -73.611526,
+      "altitud": 480
+    },
+    "estado": true,
+    "ordenEnRuta": 55
+  },
+  {
+    "idParada": 56,
+    "nombre": "Esquina panadería La Cosmopolita",
+    "ubicacion": {
+      "latitud": 4.059571,
+      "longitud": -73.614474,
+      "altitud": 479
+    },
+    "estado": true,
+    "ordenEnRuta": 56
+  },
+  {
+    "idParada": 57,
+    "nombre": "Esquina de la cra 28f",
+    "ubicacion": {
+      "latitud": 4.058071,
+      "longitud": -73.617141,
+      "altitud": 479
+    },
+    "estado": true,
+    "ordenEnRuta": 57
+  },
+  {
+    "idParada": 58,
+    "nombre": "Bahía de la bomba primax de Serramonte",
+    "ubicacion": {
+      "latitud": 4.056678,
+      "longitud": -73.619585,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 58
+  },
+  {
+    "idParada": 59,
+    "nombre": "Glorieta de la Rochela",
+    "ubicacion": {
+      "latitud": 4.055225,
+      "longitud": -73.622341,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 59
+  },
+  {
+    "idParada": 60,
+    "nombre": "Puente peatonal Catumare",
+    "ubicacion": {
+      "latitud": 4.053466,
+      "longitud": -73.624838,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 60
+  },
+  {
+    "idParada": 61,
+    "nombre": "Entrada etapa 4 de La Madrid",
+    "ubicacion": {
+      "latitud": 4.053615,
+      "longitud": -73.624713,
+      "altitud": 478
+    },
+    "estado": true,
+    "ordenEnRuta": 61
+  },
+  {
+    "idParada": 62,
+    "nombre": "Almacen Los Chopos",
+    "ubicacion": {
+      "latitud": 4.052383,
+      "longitud": -73.626382,
+      "altitud": 475
+    },
+    "estado": true,
+    "ordenEnRuta": 62
+  },
+  {
+    "idParada": 63,
+    "nombre": "Salida Colegio Las Palmas",
+    "ubicacion": {
+      "latitud": 4.051848,
+      "longitud": -73.627992,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 63
+  },
+  {
+    "idParada": 64,
+    "nombre": "Banco Congente",
+    "ubicacion": {
+      "latitud": 4.050724,
+      "longitud": -73.629439,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 64
+  },
+  {
+    "idParada": 65,
+    "nombre": "Consuerte diag. Iglesia de Porfia",
+    "ubicacion": {
+      "latitud": 4.049708,
+      "longitud": -73.630722,
+      "altitud": 474
+    },
+    "estado": true,
+    "ordenEnRuta": 65
+  },
+  {
+    "idParada": 66,
+    "nombre": "Bomba en glorita de Porfia",
+    "ubicacion": {
+      "latitud": 4.049097,
+      "longitud": -73.632442,
+      "altitud": 473
+    },
+    "estado": true,
+    "ordenEnRuta": 66
+  },
+  {
+    "idParada": 67,
+    "nombre": "Segundo puente peatonal Samán de Rivera",
+    "ubicacion": {
+      "latitud": 4.04825,
+      "longitud": -73.633832,
+      "altitud": 476
+    },
+    "estado": true,
+    "ordenEnRuta": 67
+  }
+]

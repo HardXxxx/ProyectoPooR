@@ -1,0 +1,151 @@
+{
+  "rutas": [
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": {
+        "salidasBarrio": [
+          "05:10:00",
+          "06:10:00",
+          "07:10:00",
+          "08:20:00",
+          "13:20:00"
+        ],
+        "salidasUnillanos": [
+          "12:00:00",
+          "16:00:00",
+          "17:00:00",
+          "18:10:00"
+        ]
+      },
+      "idRuta": 1,
+      "nombre": "Unillanos - Amarilo",
+      "origen": "Barrio Amarilo",
+      "paradas": [1, 2],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Paradero Amarilo diagonal a droguería Farmameta"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 2,
+      "nombre": "Unillanos - La Grama",
+      "origen": "La Grama",
+      "paradas": [3, 4, 5, 6, 7],
+      "tipo": "RutaBarrio",
+      "puntoSalida": null
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 3,
+      "nombre": "Unillanos - Maracos",
+      "origen": "Barrio Maracos",
+      "paradas": [8, 9, 10, 11, 12, 13, 14, 15],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Montallantas de la bomba Avenida Maracos"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 4,
+      "nombre": "Unillanos - Parque",
+      "origen": "Parque de Los Estudiantes",
+      "paradas": [16, 17, 18, 19, 20, 21, 22, 23, 24],
+      "tipo": "RutaCentro",
+      "zonaCentro": "Centro",
+      "puntoSalida": "Diagonal Interrapidísimo del Barzal"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 5,
+      "nombre": "Unillanos - Postobón",
+      "origen": "Almacén Yamaha",
+      "paradas": [25, 26, 27, 28],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Almacen Yamaha"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 6,
+      "nombre": "Unillanos - Covisán",
+      "origen": "Barrio Covisán",
+      "paradas": [29, 30, 31, 32, 33, 34, 35, 36, 37],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Frente a la droguería del Estero 24 Hrs"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 7,
+      "nombre": "Unillanos - Villacentro",
+      "origen": "CC Villacentro",
+      "paradas": [38, 39, 40],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Portería principal del CC Villacentro, entrada del súpermercado Olímpica"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 8,
+      "nombre": "Unillanos - Terminal",
+      "origen": "Terminal de Transporte",
+      "paradas": [41, 42, 43, 44, 45, 46],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Frente al Banco W de Hato Grande"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 9,
+      "nombre": "Unillanos - Reliquia",
+      "origen": "La Reliquia",
+      "paradas": [47, 48, 49, 50, 51, 52],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Puesto de salud de la Reliquia"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 10,
+      "nombre": "Unillanos - Viva",
+      "origen": "CC Viva",
+      "paradas": [53, 54, 55, 56, 57],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Semáforo CC Viva, Villa Bolívar"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 11,
+      "nombre": "Unillanos - Montecarlo",
+      "origen": "Barrio Montecarlo",
+      "paradas": [58, 59, 60],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Debajo del puente peatonal Llanolindo sentido Bogotá - Villavicencio"
+    },
+    {
+      "destino": "Universidad de los Llanos",
+      "estado": true,
+      "horarios": [],
+      "idRuta": 12,
+      "nombre": "Unillanos - Porfía",
+      "origen": "Barrio Porfía",
+      "paradas": [61, 62, 63, 64, 65, 66, 67],
+      "tipo": "RutaBarrio",
+      "puntoSalida": "Yositoko 5ta Etapa de La Madrid"
+    }
+  ]
+}

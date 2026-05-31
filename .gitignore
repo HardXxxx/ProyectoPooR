@@ -1,0 +1,19 @@
+# Ejecutables
+*.exe
+*.out
+*.o
+
+# CMake
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile.cmake
+
+# IDEs
+.vscode/
+.idea/
+*.user
+
+# Misc
+*.log

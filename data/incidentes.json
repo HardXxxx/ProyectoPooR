@@ -1,0 +1,22 @@
+{
+    "incidentes": [
+        {
+            "descripcion": "Falla mecanica en motor del bus VST-001",
+            "estado": "Abierto",
+            "idIncidente": 1,
+            "tipo": "Mecanico"
+        },
+        {
+            "descripcion": "Accidente menor en parada Centro Comercial",
+            "estado": "Abierto",
+            "idIncidente": 2,
+            "tipo": "Accidente"
+        },
+        {
+            "descripcion": "Problema con puerta del bus VST-003",
+            "estado": "Abierto",
+            "idIncidente": 3,
+            "tipo": "Mecanico"
+        }
+    ]
+}

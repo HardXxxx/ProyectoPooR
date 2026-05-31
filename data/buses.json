@@ -1,0 +1,25 @@
+{
+    "buses": [
+        {
+            "capacidadActual": 0,
+            "capacidadMaxima": 50,
+            "estado": true,
+            "idBus": 1,
+            "placa": "VST-001"
+        },
+        {
+            "capacidadActual": 0,
+            "capacidadMaxima": 40,
+            "estado": true,
+            "idBus": 2,
+            "placa": "VST-002"
+        },
+        {
+            "capacidadActual": 0,
+            "capacidadMaxima": 45,
+            "estado": true,
+            "idBus": 3,
+            "placa": "VST-003"
+        }
+    ]
+}
