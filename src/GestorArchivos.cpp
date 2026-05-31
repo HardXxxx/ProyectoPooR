@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <iostream>
 
 GestorArchivos::GestorArchivos(const std::string& dirData) : rutaData(dirData) {}
 
@@ -198,8 +199,14 @@ std::vector<Ruta*> GestorArchivos::cargarRutas() const {
 // Lee usuarios.json y retorna punteros polimorficos al tipo correcto de usuario
 std::vector<Usuario*> GestorArchivos::cargarUsuarios() const {
     std::vector<Usuario*> lista;
-    std::ifstream archivo(rutaData + "/usuarios.json");
-    if (!archivo.is_open()) return lista;
+
+    std::string rutaCompleta = rutaData + "/usuarios.json";
+
+    std::ifstream archivo(rutaCompleta);
+    if (!archivo.is_open()) {
+        std::cout << "\nERROR CRITICO No se encontro el JSON en la ruta: " << rutaCompleta << std::endl;
+        return lista; // Retorna vacio si no lo encuentra
+    }
 
     std::string linea;
     int id = 0, codEst = 0, codAdmin = 0, codOp = 0, busId = 0, semestre = 0;
@@ -224,17 +231,19 @@ std::vector<Usuario*> GestorArchivos::cargarUsuarios() const {
         if (linea.find("\"carnetActivo\"") != std::string::npos) carnetActivo = extraerBool(linea, "carnetActivo");
 
 
-        // Al cerrar el objeto JSON se construye el usuario segun su tipo
-        if (linea.find("}") != std::string::npos && id > 0 && !nombre.empty()) {
-            if (tipo == "Estudiante")
-                lista.push_back(new Estudiante(id, nombre, telefono, correo, codEst, facultad, programa, semestre, carnetActivo));
-            else if (tipo == "Administrador")
+        // Instanciamos polimórficamente según el rol detectado
+            if (tipo == "Conductor") {
+                // Requiere 8 argumentos según Conductor.h
+                lista.push_back(new Conductor(id, nombre, telefono, correo, codOp, experiencia, turno, busId)); 
+            } 
+            else if (tipo == "Administrador") {
+                // Requiere 5 argumentos según Administrador.h
                 lista.push_back(new Administrador(id, nombre, telefono, correo, codAdmin));
-            else if (tipo == "Conductor")
-                lista.push_back(new Conductor(id, nombre, telefono, correo, codOp, experiencia, turno, busId));
-            id = 0; nombre = telefono = correo = tipo = facultad = programa = experiencia = turno = "";
-            codEst = codAdmin = codOp = busId = semestre = 0; carnetActivo = false;
-        }
+            } 
+            else if (tipo == "Estudiante") {
+                // Requiere 9 argumentos según Estudiante.h
+                lista.push_back(new Estudiante(id, nombre, telefono, correo, codEst, facultad, programa, semestre, carnetActivo));
+            }
     }
     return lista;
 }
