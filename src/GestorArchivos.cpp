@@ -18,13 +18,16 @@ std::vector<Bus> GestorArchivos::cargarBuses() const {
 
     json j = json::parse(archivo);
     for (const auto& b : j["buses"]) {
-        lista.emplace_back(
+        Bus busObj(
             b["idBus"].get<int>(),
             b["placa"].get<std::string>(),
             b["capacidadMaxima"].get<int>(),
             b["capacidadActual"].get<int>(),
             b["estado"].get<bool>()
         );
+        busObj.setIndiceParadaActual(b.value("indiceParadaActual", -1));
+        busObj.setIdRutaAsignada(b.value("idRutaAsignada", b["idBus"].get<int>()));
+        lista.push_back(busObj);
     }
     return lista;
 }
@@ -168,8 +171,7 @@ std::vector<Usuario*> GestorArchivos::cargarUsuarios() const {
                 u["codigoEstudiantil"].get<int>(),
                 u["facultad"].get<std::string>(),
                 u["programa"].get<std::string>(),
-                u["semestre"].get<int>(),
-                u["carnetActivo"].get<bool>()
+                u["semestre"].get<int>()
             ));
         } else if (tipo == "Administrador") {
             lista.push_back(new Administrador(
@@ -219,7 +221,9 @@ void GestorArchivos::guardarBuses(const std::vector<Bus>& busesList) const {
             {"capacidadMaxima", b.getCapacidadMaxima()},
             {"estado",          b.getEstado()},
             {"idBus",           b.getIdBus()},
-            {"placa",           b.getPlaca()}
+            {"placa",           b.getPlaca()},
+            {"indiceParadaActual", b.getIndiceParadaActual()},
+            {"idRutaAsignada",  b.getIdRutaAsignada()}
         });
     }
     std::ofstream archivo(rutaData + "/buses.json");
@@ -247,7 +251,6 @@ void GestorArchivos::guardarUsuarios(const std::vector<Usuario*>& usuariosList) 
             obj["facultad"]          = e->getFacultad();
             obj["programa"]          = e->getPrograma();
             obj["semestre"]          = e->getSemestre();
-            obj["carnetActivo"]      = e->isCarnetActivo();
         } else if (u->getTipo() == "Administrador") {
             const Administrador* a = static_cast<const Administrador*>(u);
             obj["codigoAdmin"] = a->getCodigoAdmin();

@@ -1,11 +1,11 @@
 #include "Bus.h"
 #include <cstdlib>
 
-Bus::Bus() : idBus(0), capacidadMaxima(0), capacidadActual(0), estado(false), ubicacion(nullptr) {}
+Bus::Bus() : idBus(0), capacidadMaxima(0), capacidadActual(0), estado(false), ubicacion(nullptr), indiceParadaActual(-1), idRutaAsignada(0) {}
 
 Bus::Bus(int id, const std::string& plc, int capMax, int capAct, bool est)
     : idBus(id), placa(plc), capacidadMaxima(capMax), capacidadActual(capAct),
-      estado(est), ubicacion(nullptr) {}
+      estado(est), ubicacion(nullptr), indiceParadaActual(-1), idRutaAsignada(id) {}
 
 // Libera la memoria del puntero de ubicacion GPS al destruir el bus
 Bus::~Bus() {
@@ -18,12 +18,16 @@ int Bus::getCapacidadMaxima() const { return capacidadMaxima; }
 int Bus::getCapacidadActual() const { return capacidadActual; }
 bool Bus::getEstado() const { return estado; }
 UbicacionGPS* Bus::getUbicacion() const { return ubicacion; }
+int Bus::getIndiceParadaActual() const { return indiceParadaActual; }
+int Bus::getIdRutaAsignada() const { return idRutaAsignada; }
 
 void Bus::setIdBus(int id) { idBus = id; }
 void Bus::setPlaca(const std::string& p) { placa = p; }
 void Bus::setCapacidadMaxima(int cap) { capacidadMaxima = cap; }
 void Bus::setCapacidadActual(int cap) { capacidadActual = cap; }
 void Bus::setEstado(bool est) { estado = est; }
+void Bus::setIndiceParadaActual(int idx) { indiceParadaActual = idx; }
+void Bus::setIdRutaAsignada(int idRuta) { idRutaAsignada = idRuta; }
 
 
 // Inicializa o actualiza el puntero de ubicacion GPS con nuevas coordenadas

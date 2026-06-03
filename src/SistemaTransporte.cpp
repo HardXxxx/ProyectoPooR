@@ -25,7 +25,16 @@ static void limpiarPantalla() {
     SetConsoleCursorPosition(h, coord);
 }
 static void setColor(WORD c) { SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), c); }
-static int leerInt() { int v; std::cin >> v; std::cin.ignore(100, '\n'); return v; }
+static int leerInt() {
+    int v;
+    if (!(std::cin >> v)) {
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        return -1;
+    }
+    std::cin.ignore(10000, '\n');
+    return v;
+}
 
 SistemaTransporte::SistemaTransporte(const std::string& dirData) : gestor(dirData), usuarioActual(nullptr) {}
 SistemaTransporte::~SistemaTransporte() {
@@ -72,7 +81,12 @@ Bus* SistemaTransporte::buscarBusPorId(int id) {
 
 Ruta* SistemaTransporte::buscarRutaPorBus(const std::string& placa) {
     auto it = std::find_if(buses.begin(), buses.end(), [&placa](const Bus& b) { return b.getPlaca() == placa; });
-    return (it != buses.end() && !rutas.empty()) ? rutas[it->getIdBus() - 1] : (!rutas.empty() ? rutas[0] : nullptr);
+    if (it != buses.end() && !rutas.empty()) {
+        int idRuta = it->getIdRutaAsignada();
+        auto itRuta = std::find_if(rutas.begin(), rutas.end(), [idRuta](Ruta* r) { return r->getIdRuta() == idRuta; });
+        if (itRuta != rutas.end()) return *itRuta;
+    }
+    return (!rutas.empty() ? rutas[0] : nullptr);
 }
 
 std::vector<Incidente*> SistemaTransporte::incidentesDeBus(const std::string& placa) {
@@ -82,23 +96,36 @@ std::vector<Incidente*> SistemaTransporte::incidentesDeBus(const std::string& pl
     return resultado;
 }
 
-void SistemaTransporte::mostrarProximidadBus(Bus* bus, Ruta* ruta) {
+void SistemaTransporte::mostrarProximidadBus(Bus* bus, Ruta* ruta, const std::map<int, std::string>& horasLlegada) {
     if (!bus || !ruta || !bus->getUbicacion()) return;
     
     setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
     std::cout << "\n[ PROXIMIDAD EN RUTA (30 km/h) ]\n";
     setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     
-    int mostradas = 0;
-    for (int idP : ruta->getIdsParadas()) {
+    int idxActual = bus->getIndiceParadaActual();
+    const auto& ids = ruta->getIdsParadas();
+    
+    for (size_t i = 0; i < ids.size(); ++i) {
+        int idP = ids[i];
         auto it = std::find_if(paradas.begin(), paradas.end(), [idP](const Parada& p) { return p.getIdParada() == idP; });
-        if (it != paradas.end()) {
+        if (it == paradas.end()) continue;
+
+        auto itHora = horasLlegada.find(idP);
+        
+        if ((int)i <= idxActual && itHora != horasLlegada.end()) {
+            // Parada ya visitada: 0 m, 0 min, hora de llegada
+            setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            std::cout << "  * Parada (" << idP << ") " << it->getNombre()
+                      << "\n    -> 0 m | 0.0 min | Llego: " << itHora->second << "\n";
+            setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        } else {
+            // Parada pendiente: distancia y tiempo reales desde posición actual del bus
             double metros = it->distanciaA(bus->getUbicacion()->getLatitud(), bus->getUbicacion()->getLongitud());
-            double dist = bus->tiempoHastaParada(it->getUbicacion().getLatitud(), it->getUbicacion().getLongitud());
-            std::cout << "  Parada (" << idP << ") " << it->getNombre() 
+            double minutos = bus->tiempoHastaParada(it->getUbicacion().getLatitud(), it->getUbicacion().getLongitud());
+            std::cout << "    Parada (" << idP << ") " << it->getNombre()
                       << "\n    -> " << std::fixed << std::setprecision(0) << metros << " m | "
-                      << std::setprecision(1) << dist << " min\n";
-            if (++mostradas >= 4) break;
+                      << std::setprecision(1) << minutos << " min\n";
         }
     }
 }
@@ -190,7 +217,13 @@ void SistemaTransporte::panelEstudiante() {
         
         std::cout << "\n" << std::string(ANCHO, '-') 
                   << "\n>>> Reservar asiento? (S/N): ";
-        char abordar; std::cin >> abordar; std::cin.ignore(10000, '\n');
+        char abordar = 'N'; 
+        if (std::cin >> abordar) {
+            std::cin.ignore(10000, '\n');
+        } else {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+        }
         
         if (toupper(abordar) == 'S') {
             Bus* bus = buscarBusPorId(rutaEncontrada->getIdRuta());
@@ -223,6 +256,7 @@ void SistemaTransporte::panelConductor() {
     Conductor* cond = static_cast<Conductor*>(usuarioActual);
     Bus* bus = buscarBusPorId(cond->getBusAsignado());
     Ruta* ruta = bus ? buscarRutaPorBus(bus->getPlaca()) : nullptr;
+    std::map<int, std::string> horasLlegada; // idParada -> hora de llegada
     
     while (true) {
         limpiarPantalla();
@@ -257,9 +291,25 @@ void SistemaTransporte::panelConductor() {
             setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             std::cout << "Barrio: " << ruta->getHorario().formatearBarrio() 
                       << " | Unillanos: " << ruta->getHorario().formatearUnillanos() << "\n";
-            mostrarProximidadBus(bus, ruta);
+            mostrarProximidadBus(bus, ruta, horasLlegada);
         }
         
+        setColor(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        std::cout << "\n[ ESTADO DE RUTA ]\n";
+        setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+        if (ruta && bus) {
+            int idx = bus->getIndiceParadaActual();
+            if (idx == -1) {
+                std::cout << "  Ubicacion: En origen / Esperando inicio de ruta\n";
+            } else if (idx < (int)ruta->getIdsParadas().size()) {
+                int idActual = ruta->getIdsParadas()[idx];
+                auto itP = std::find_if(paradas.begin(), paradas.end(), [idActual](const Parada& p){ return p.getIdParada() == idActual; });
+                std::cout << "  Ultima parada visitada: " << (itP != paradas.end() ? itP->getNombre() : "Desconocida") << " a las " << horaActual() << "\n";
+            } else {
+                std::cout << "  Ubicacion: Fin de ruta alcanzado.\n";
+            }
+        }
+
         setColor(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         std::cout << "\n[ OPCIONES ]\n";
         setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
@@ -270,16 +320,44 @@ void SistemaTransporte::panelConductor() {
         
         int op = leerInt();
         if (op == 1 && bus && ruta && !ruta->getIdsParadas().empty()) {
-            int idSig = ruta->getIdsParadas()[0];
-            auto it = std::find_if(paradas.begin(), paradas.end(), [idSig](const Parada& p) { return p.getIdParada() == idSig; });
-            if (it != paradas.end()) {
-                bus->simularMovimiento(it->getUbicacion().getLatitud(), it->getUbicacion().getLongitud());
+            int idxActual = bus->getIndiceParadaActual();
+            if (idxActual + 1 < (int)ruta->getIdsParadas().size()) {
+                idxActual++;
+                int idSig = ruta->getIdsParadas()[idxActual];
+                auto it = std::find_if(paradas.begin(), paradas.end(), [idSig](const Parada& p) { return p.getIdParada() == idSig; });
+                if (it != paradas.end()) {
+                    // Fijar GPS del bus EXACTAMENTE en la parada
+                    bus->setUbicacion(it->getUbicacion().getLatitud(), it->getUbicacion().getLongitud(), it->getAltitud());
+                    bus->setIndiceParadaActual(idxActual);
+                    std::string horaLlg = horaActual();
+                    horasLlegada[idSig] = horaLlg;
+                    setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                    std::cout << "\n  [OK] Llegada registrada a: " << it->getNombre() << " (" << horaLlg << ")\n";
+                    setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+                    gestor.guardarBuses(buses);
+                }
+            } else {
+                bus->setIndiceParadaActual(-1); // Reiniciar recorrido
+                
+                int idRutaActual = bus->getIdRutaAsignada();
+                auto itRuta = std::find_if(rutas.begin(), rutas.end(), [idRutaActual](Ruta* r) { return r->getIdRuta() == idRutaActual; });
+                int nextIndex = 0;
+                if (itRuta != rutas.end()) {
+                    nextIndex = std::distance(rutas.begin(), itRuta) + 1;
+                    if (nextIndex >= (int)rutas.size()) nextIndex = 0;
+                }
+                if (!rutas.empty()) {
+                    bus->setIdRutaAsignada(rutas[nextIndex]->getIdRuta());
+                    ruta = rutas[nextIndex];
+                }
+                horasLlegada.clear(); // Limpiar horas al cambiar de ruta
+
                 setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                std::cout << "\n  [OK] Posicion actualizada: " << it->getNombre() << "\n";
+                std::cout << "\n  [OK] Fin de ruta alcanzado. Se le ha asignado la " << (ruta ? ruta->getNombre() : "siguiente ruta") << ".\n";
                 setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
                 gestor.guardarBuses(buses);
             }
-            Sleep(1500);
+            Sleep(2500);
         } else if (op == 2) {
             std::cout << "\nDescripcion: "; std::string desc; std::getline(std::cin, desc);
             std::cout << "Tipo (Mecanico/Accidente/Otro): "; std::string tipo; std::getline(std::cin, tipo);

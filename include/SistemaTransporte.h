@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <map>
 #include "GestorArchivos.h"
 #include "Bus.h"
 #include "Parada.h"
@@ -65,7 +66,7 @@ private:
     std::string fechaActual() const;
 
     // Muestra la distancia y tiempo estimado del bus hacia cada parada de la ruta
-    void mostrarProximidadBus(Bus* bus, Ruta* ruta);
+    void mostrarProximidadBus(Bus* bus, Ruta* ruta, const std::map<int, std::string>& horasLlegada);
 
 public:
     explicit SistemaTransporte(const std::string& dirData);
