@@ -1,92 +1,52 @@
 #include "GestorArchivos.h"
 #include <fstream>
-#include <sstream>
-#include <algorithm>
 #include <iostream>
+#include "../include/json.hpp"
+
+// Alias local para no escribir nlohmann::json en cada linea
+using json = nlohmann::json;
 
 GestorArchivos::GestorArchivos(const std::string& dirData) : rutaData(dirData) {}
 
-// Extrae el valor de cadena de una clave JSON en una linea de texto
-std::string GestorArchivos::extraerString(const std::string& linea, const std::string& clave) const {
-    std::string busqueda = "\"" + clave + "\"";
-    size_t pos = linea.find(busqueda);
-    if (pos == std::string::npos) return "";
-    pos = linea.find("\"", pos + busqueda.size() + 1);
-    if (pos == std::string::npos) return "";
-    size_t fin = linea.find("\"", pos + 1);
-    if (fin == std::string::npos) return "";
-    return linea.substr(pos + 1, fin - pos - 1);
-}
+// Metodos de carga (lectura desde JSON)
 
-// Extrae el valor numerico de una clave JSON en una linea de texto
-double GestorArchivos::extraerNumero(const std::string& linea, const std::string& clave) const {
-    std::string busqueda = "\"" + clave + "\"";
-    size_t pos = linea.find(busqueda);
-    if (pos == std::string::npos) return 0.0;
-    pos = linea.find(":", pos + busqueda.size());
-    if (pos == std::string::npos) return 0.0;
-    // Avanza espacios
-    ++pos;
-    while (pos < linea.size() && (linea[pos] == ' ' || linea[pos] == '\t')) ++pos;
-    return std::stod(linea.substr(pos));
-}
-
-// Extrae el valor booleano (true/false) de una clave JSON
-bool GestorArchivos::extraerBool(const std::string& linea, const std::string& clave) const {
-    std::string busqueda = "\"" + clave + "\"";
-    size_t pos = linea.find(busqueda);
-    if (pos == std::string::npos) return false;
-    pos = linea.find(":", pos + busqueda.size());
-    if (pos == std::string::npos) return false;
-    return linea.find("true", pos) != std::string::npos;
-}
-
-// Lee buses.json y construye el vector de buses con sus datos basicos
+// Lee buses.json y construye el vector de buses
 std::vector<Bus> GestorArchivos::cargarBuses() const {
     std::vector<Bus> lista;
     std::ifstream archivo(rutaData + "/buses.json");
     if (!archivo.is_open()) return lista;
 
-    std::string linea;
-    int id = 0; std::string placa; int capMax = 0; int capAct = 0; bool est = false;
-    while (std::getline(archivo, linea)) {
-        if (linea.find("\"idBus\"")           != std::string::npos) id     = (int)extraerNumero(linea, "idBus");
-        if (linea.find("\"placa\"")           != std::string::npos) placa  = extraerString(linea, "placa");
-        if (linea.find("\"capacidadMaxima\"") != std::string::npos) capMax = (int)extraerNumero(linea, "capacidadMaxima");
-        if (linea.find("\"capacidadActual\"") != std::string::npos) capAct = (int)extraerNumero(linea, "capacidadActual");
-        if (linea.find("\"estado\"")          != std::string::npos) est    = extraerBool(linea, "estado");
-        // Al cerrar el objeto se acumula el bus
-        if (linea.find("}") != std::string::npos && id > 0) {
-            lista.push_back(Bus(id, placa, capMax, capAct, est));
-            id = 0; placa = ""; capMax = 0; capAct = 0; est = false;
-        }
+    json j = json::parse(archivo);
+    for (const auto& b : j["buses"]) {
+        lista.emplace_back(
+            b["idBus"].get<int>(),
+            b["placa"].get<std::string>(),
+            b["capacidadMaxima"].get<int>(),
+            b["capacidadActual"].get<int>(),
+            b["estado"].get<bool>()
+        );
     }
     return lista;
 }
 
-// Lee paradas.json y construye el vector de paradas con coordenadas GPS
+// Lee paradas.json (array raiz) y construye el vector de paradas con coordenadas GPS
 std::vector<Parada> GestorArchivos::cargarParadas() const {
     std::vector<Parada> lista;
     std::ifstream archivo(rutaData + "/paradas.json");
     if (!archivo.is_open()) return lista;
 
-    std::string linea;
-    int id = 0; std::string nombre; double lat = 0, lon = 0, alt = 0;
-    bool est = false; int orden = 0; bool dentroUbicacion = false;
-
-    while (std::getline(archivo, linea)) {
-        if (linea.find("\"idParada\"")   != std::string::npos) id    = (int)extraerNumero(linea, "idParada");
-        if (linea.find("\"nombre\"")     != std::string::npos) nombre= extraerString(linea, "nombre");
-        if (linea.find("\"ubicacion\"")  != std::string::npos) dentroUbicacion = true;
-        if (dentroUbicacion && linea.find("\"latitud\"")  != std::string::npos) lat   = extraerNumero(linea, "latitud");
-        if (dentroUbicacion && linea.find("\"longitud\"") != std::string::npos) lon   = extraerNumero(linea, "longitud");
-        if (dentroUbicacion && linea.find("\"altitud\"")  != std::string::npos) { alt = extraerNumero(linea, "altitud"); dentroUbicacion = false; }
-        if (linea.find("\"estado\"")     != std::string::npos) est   = extraerBool(linea, "estado");
-        if (linea.find("\"ordenEnRuta\"")!= std::string::npos) orden = (int)extraerNumero(linea, "ordenEnRuta");
-        if (linea.find("}") != std::string::npos && id > 0 && !nombre.empty()) {
-            lista.push_back(Parada(id, nombre, lat, lon, alt, est, orden));
-            id = 0; nombre = ""; lat = lon = alt = 0; est = false; orden = 0;
-        }
+    // paradas.json es un array directo, sin clave envolvente
+    json j = json::parse(archivo);
+    for (const auto& p : j) {
+        lista.emplace_back(
+            p["idParada"].get<int>(),
+            p["nombre"].get<std::string>(),
+            p["ubicacion"]["latitud"].get<double>(),
+            p["ubicacion"]["longitud"].get<double>(),
+            p["ubicacion"]["altitud"].get<double>(),
+            p["estado"].get<bool>(),
+            p["ordenEnRuta"].get<int>()
+        );
     }
     return lista;
 }
@@ -97,17 +57,14 @@ std::vector<Incidente> GestorArchivos::cargarIncidentes() const {
     std::ifstream archivo(rutaData + "/incidentes.json");
     if (!archivo.is_open()) return lista;
 
-    std::string linea;
-    int id = 0; std::string desc, tipo, est;
-    while (std::getline(archivo, linea)) {
-        if (linea.find("\"idIncidente\"") != std::string::npos) id   = (int)extraerNumero(linea, "idIncidente");
-        if (linea.find("\"descripcion\"") != std::string::npos) desc = extraerString(linea, "descripcion");
-        if (linea.find("\"tipo\"")        != std::string::npos) tipo = extraerString(linea, "tipo");
-        if (linea.find("\"estado\"")      != std::string::npos) est  = extraerString(linea, "estado");
-        if (linea.find("}") != std::string::npos && id > 0) {
-            lista.push_back(Incidente(id, desc, tipo, est));
-            id = 0; desc = tipo = est = "";
-        }
+    json j = json::parse(archivo);
+    for (const auto& inc : j["incidentes"]) {
+        lista.emplace_back(
+            inc["idIncidente"].get<int>(),
+            inc["descripcion"].get<std::string>(),
+            inc["tipo"].get<std::string>(),
+            inc["estado"].get<std::string>()
+        );
     }
     return lista;
 }
@@ -118,240 +75,196 @@ std::vector<Ruta*> GestorArchivos::cargarRutas() const {
     std::ifstream archivo(rutaData + "/rutas.json");
     if (!archivo.is_open()) return lista;
 
-    std::string contenido((std::istreambuf_iterator<char>(archivo)),
-                           std::istreambuf_iterator<char>());
+    json j = json::parse(archivo);
+    for (const auto& r : j["rutas"]) {
+        std::string tipo    = r["tipo"].get<std::string>();
+        // puntoSalida puede ser null en el JSON
+        std::string pSalida = r["puntoSalida"].is_null() ? "" : r["puntoSalida"].get<std::string>();
+        // zonaCentro solo existe en RutaCentro
+        std::string zona    = r.value("zonaCentro", "");
 
-    // Procesa el JSON buscando bloques de ruta delimitados por { }
-    int id = 0; std::string nombre, origen, destino, tipo, puntoSalida, zonaCentro;
-    bool estado = true;
-    std::vector<int> idsParadas;
-    std::vector<std::string> salidasBarrio, salidasUnillanos;
-    bool enHorarios = false, enBarrio = false, enUnillanos = false, enParadas = false;
-
-    std::istringstream ss(contenido);
-    std::string linea;
-    int profundidad = 0;
-
-    while (std::getline(ss, linea)) {
-        for (char c : linea) { if (c == '{') profundidad++; else if (c == '}') profundidad--; }
-
-        if (linea.find("\"idRuta\"")      != std::string::npos) id          = (int)extraerNumero(linea, "idRuta");
-        if (linea.find("\"nombre\"")      != std::string::npos) nombre      = extraerString(linea, "nombre");
-        if (linea.find("\"origen\"")      != std::string::npos) origen      = extraerString(linea, "origen");
-        if (linea.find("\"destino\"")     != std::string::npos) destino     = extraerString(linea, "destino");
-        if (linea.find("\"tipo\"")        != std::string::npos) tipo        = extraerString(linea, "tipo");
-        if (linea.find("\"puntoSalida\"") != std::string::npos) puntoSalida = extraerString(linea, "puntoSalida");
-        if (linea.find("\"zonaCentro\"")  != std::string::npos) zonaCentro  = extraerString(linea, "zonaCentro");
-        if (linea.find("\"estado\"")      != std::string::npos) estado      = extraerBool(linea, "estado");
-
-        // Detecta seccion de horarios y sus sublistas
-        if (linea.find("\"configuracionHorarios\"") != std::string::npos || linea.find("\"horarios\"") != std::string::npos) enHorarios = true;
-        if (enHorarios && linea.find("\"salidasBarrio\"")    != std::string::npos) { enBarrio    = true; enUnillanos = false; }
-        if (enHorarios && linea.find("\"salidasUnillanos\"") != std::string::npos) { enUnillanos = true; enBarrio    = false; }
-
-        // Detecta seccion de paradas
-        if (linea.find("\"paradas\"") != std::string::npos) { enParadas = true; enHorarios = false; enBarrio = false; enUnillanos = false; }
-
-        // Extrae horas individuales dentro de los arrays de horarios
-        if (enBarrio && linea.find("\"") != std::string::npos) {
-            size_t a = linea.find("\""), b = linea.rfind("\"");
-            if (a != b) { std::string h = linea.substr(a + 1, b - a - 1); if (h.size() > 4) salidasBarrio.push_back(h); }
-        }
-        if (enUnillanos && linea.find("\"") != std::string::npos) {
-            size_t a = linea.find("\""), b = linea.rfind("\"");
-            if (a != b) { std::string h = linea.substr(a + 1, b - a - 1); if (h.size() > 4) salidasUnillanos.push_back(h); }
+        Ruta* ruta = nullptr;
+        if (tipo == "RutaCentro") {
+            ruta = new RutaCentro(
+                r["idRuta"].get<int>(),  r["nombre"].get<std::string>(),
+                r["origen"].get<std::string>(), r["destino"].get<std::string>(),
+                r["estado"].get<bool>(), pSalida, zona
+            );
+        } else {
+            ruta = new RutaBarrio(
+                r["idRuta"].get<int>(),  r["nombre"].get<std::string>(),
+                r["origen"].get<std::string>(), r["destino"].get<std::string>(),
+                r["estado"].get<bool>(), pSalida
+            );
         }
 
-        // Extrae IDs de paradas del array
-        if (enParadas) {
-            for (size_t i = 0; i < linea.size(); ++i) {
-                if (std::isdigit(linea[i])) {
-                    size_t fin = i;
-                    while (fin < linea.size() && std::isdigit(linea[fin])) fin++;
-                    idsParadas.push_back(std::stoi(linea.substr(i, fin - i)));
-                    i = fin;
-                }
-            }
-            if (linea.find("]") != std::string::npos) enParadas = false;
+        // Carga los IDs de paradas que conforman la ruta
+        for (int idP : r["paradas"])
+            ruta->agregarParada(idP);
+
+        // Carga los horarios si el objeto existe y tiene contenido
+        if (r["horarios"].is_object()) {
+            const auto& hor = r["horarios"];
+            if (hor.contains("salidasBarrio") && hor["salidasBarrio"].is_array())
+                for (const auto& h : hor["salidasBarrio"])
+                    ruta->getHorario().agregarSalidaBarrio(h.get<std::string>());
+            if (hor.contains("salidasUnillanos") && hor["salidasUnillanos"].is_array())
+                for (const auto& h : hor["salidasUnillanos"])
+                    ruta->getHorario().agregarSalidaUnillanos(h.get<std::string>());
         }
 
-        // Al regresar a profundidad de objeto raiz se construye la ruta
-        if (profundidad == 2 && id > 0 && !nombre.empty()) {
-            Ruta* r = nullptr;
-            if (tipo == "RutaCentro") {
-                r = new RutaCentro(id, nombre, origen, destino, estado, puntoSalida, zonaCentro);
-            } else {
-                r = new RutaBarrio(id, nombre, origen, destino, estado, puntoSalida);
-            }
-            r->setIdsParadas(idsParadas);
-            r->getHorario().setSalidasBarrio(salidasBarrio);
-            r->getHorario().setSalidasUnillanos(salidasUnillanos);
-            lista.push_back(r);
-            // Reinicia variables para la siguiente ruta
-            id = 0; nombre = origen = destino = tipo = puntoSalida = zonaCentro = "";
-            estado = true; idsParadas.clear(); salidasBarrio.clear(); salidasUnillanos.clear();
-            enHorarios = enBarrio = enUnillanos = enParadas = false;
-        }
+        lista.push_back(ruta);
     }
     return lista;
 }
 
-// Lee usuarios.json y retorna punteros polimorficos al tipo correcto de usuario
+// Lee usuarios.json y retorna punteros polimorficos al subtipo correcto
 std::vector<Usuario*> GestorArchivos::cargarUsuarios() const {
     std::vector<Usuario*> lista;
-
-    std::string rutaCompleta = rutaData + "/usuarios.json";
-
-    std::ifstream archivo(rutaCompleta);
+    std::ifstream archivo(rutaData + "/usuarios.json");
     if (!archivo.is_open()) {
-        std::cout << "\nERROR CRITICO No se encontro el JSON en la ruta: " << rutaCompleta << std::endl;
-        return lista; // Retorna vacio si no lo encuentra
+        std::cerr << "\nERROR CRITICO: No se encontro usuarios.json en: " << rutaData << std::endl;
+        return lista;
     }
 
-    std::string linea;
-    int id = 0, codEst = 0, codAdmin = 0, codOp = 0, busId = 0, semestre = 0;
-    std::string nombre, telefono, correo, tipo, facultad, programa, experiencia, turno;
-    bool carnetActivo = false;
+    json j = json::parse(archivo);
+    for (const auto& u : j["usuarios"]) {
+        std::string tipo = u["tipo"].get<std::string>();
+        int         id   = u["idUsuario"].get<int>();
+        std::string nom  = u["nombre"].get<std::string>();
+        std::string tel  = u["telefono"].get<std::string>();
+        std::string cor  = u["correo"].get<std::string>();
 
-    while (std::getline(archivo, linea)) {
-        if (linea.find("\"idUsuario\"") != std::string::npos) id = (int)extraerNumero(linea, "idUsuario");
-        if (linea.find("\"nombre\"") != std::string::npos) nombre = extraerString(linea, "nombre");
-        if (linea.find("\"telefono\"") != std::string::npos) telefono = extraerString(linea, "telefono");
-        if (linea.find("\"correo\"") != std::string::npos) correo = extraerString(linea, "correo");
-        if (linea.find("\"tipo\"") != std::string::npos) tipo = extraerString(linea, "tipo");
-        if (linea.find("\"facultad\"") != std::string::npos) facultad = extraerString(linea, "facultad");
-        if (linea.find("\"programa\"") != std::string::npos) programa = extraerString(linea, "programa");
-        if (linea.find("\"experiencia\"") != std::string::npos) experiencia = extraerString(linea, "experiencia");
-        if (linea.find("\"turno\"") != std::string::npos) turno = extraerString(linea, "turno");
-        if (linea.find("\"semestre\"") != std::string::npos) semestre = (int)extraerNumero(linea, "semestre");
-        if (linea.find("\"codigoEstudiantil\"") != std::string::npos) codEst = (int)extraerNumero(linea, "codigoEstudiantil");
-        if (linea.find("\"codigoAdmin\"") != std::string::npos) codAdmin = (int)extraerNumero(linea, "codigoAdmin");
-        if (linea.find("\"codigoOperador\"") != std::string::npos) codOp = (int)extraerNumero(linea, "codigoOperador");
-        if (linea.find("\"busAsignado\"") != std::string::npos) busId = (int)extraerNumero(linea, "busAsignado");
-        if (linea.find("\"carnetActivo\"") != std::string::npos) carnetActivo = extraerBool(linea, "carnetActivo");
-
-
-        // Instanciamos polimórficamente según el rol detectado
-            if (tipo == "Conductor") {
-                // Requiere 8 argumentos según Conductor.h
-                lista.push_back(new Conductor(id, nombre, telefono, correo, codOp, experiencia, turno, busId)); 
-            } 
-            else if (tipo == "Administrador") {
-                // Requiere 5 argumentos según Administrador.h
-                lista.push_back(new Administrador(id, nombre, telefono, correo, codAdmin));
-            } 
-            else if (tipo == "Estudiante") {
-                // Requiere 9 argumentos según Estudiante.h
-                lista.push_back(new Estudiante(id, nombre, telefono, correo, codEst, facultad, programa, semestre, carnetActivo));
-            }
+        if (tipo == "Estudiante") {
+            lista.push_back(new Estudiante(
+                id, nom, tel, cor,
+                u["codigoEstudiantil"].get<int>(),
+                u["facultad"].get<std::string>(),
+                u["programa"].get<std::string>(),
+                u["semestre"].get<int>(),
+                u["carnetActivo"].get<bool>()
+            ));
+        } else if (tipo == "Administrador") {
+            lista.push_back(new Administrador(
+                id, nom, tel, cor,
+                u["codigoAdmin"].get<int>()
+            ));
+        } else if (tipo == "Conductor") {
+            lista.push_back(new Conductor(
+                id, nom, tel, cor,
+                u["codigoOperador"].get<int>(),
+                u["experiencia"].get<std::string>(),
+                u["turno"].get<std::string>(),
+                u["busAsignado"].get<int>()
+            ));
+        }
     }
     return lista;
 }
 
-// Escribe el vector de incidentes actualizado al archivo JSON
+// -------------------------------------------------------------------------
+// Metodos de guardado (escritura al JSON)
+// -------------------------------------------------------------------------
+
+// Serializa y escribe el vector de incidentes al archivo incidentes.json
 void GestorArchivos::guardarIncidentes(const std::vector<Incidente>& incidentes) const {
+    json j;
+    j["incidentes"] = json::array();
+    for (const Incidente& inc : incidentes) {
+        j["incidentes"].push_back({
+            {"descripcion", inc.getDescripcion()},
+            {"estado",      inc.getEstado()},
+            {"idIncidente", inc.getIdIncidente()},
+            {"tipo",        inc.getTipo()}
+        });
+    }
     std::ofstream archivo(rutaData + "/incidentes.json");
-    if (!archivo.is_open()) return;
-    archivo << "{\n    \"incidentes\": [\n";
-    for (size_t i = 0; i < incidentes.size(); ++i) {
-        const Incidente& inc = incidentes[i];
-        archivo << "        {\n"
-                << "            \"descripcion\": \"" << inc.getDescripcion() << "\",\n"
-                << "            \"estado\": \""      << inc.getEstado()      << "\",\n"
-                << "            \"idIncidente\": "   << inc.getIdIncidente() << ",\n"
-                << "            \"tipo\": \""        << inc.getTipo()        << "\"\n"
-                << "        }" << (i + 1 < incidentes.size() ? "," : "") << "\n";
-    }
-    archivo << "    ]\n}\n";
+    if (archivo.is_open()) archivo << j.dump(4);
 }
 
-// Escribe el vector de buses actualizado al archivo JSON
+// Serializa y escribe el vector de buses al archivo buses.json
 void GestorArchivos::guardarBuses(const std::vector<Bus>& busesList) const {
+    json j;
+    j["buses"] = json::array();
+    for (const Bus& b : busesList) {
+        j["buses"].push_back({
+            {"capacidadActual", b.getCapacidadActual()},
+            {"capacidadMaxima", b.getCapacidadMaxima()},
+            {"estado",          b.getEstado()},
+            {"idBus",           b.getIdBus()},
+            {"placa",           b.getPlaca()}
+        });
+    }
     std::ofstream archivo(rutaData + "/buses.json");
-    if (!archivo.is_open()) return;
-    archivo << "{\n    \"buses\": [\n";
-    for (size_t i = 0; i < busesList.size(); ++i) {
-        const Bus& b = busesList[i];
-        archivo << "        {\n"
-                << "            \"capacidadActual\": " << b.getCapacidadActual() << ",\n"
-                << "            \"capacidadMaxima\": " << b.getCapacidadMaxima() << ",\n"
-                << "            \"estado\": "          << (b.getEstado() ? "true" : "false") << ",\n"
-                << "            \"idBus\": "           << b.getIdBus()           << ",\n"
-                << "            \"placa\": \""         << b.getPlaca()           << "\"\n"
-                << "        }" << (i + 1 < busesList.size() ? "," : "") << "\n";
-    }
-    archivo << "    ]\n}\n";
+    if (archivo.is_open()) archivo << j.dump(4);
 }
 
-// Escribe el vector de usuarios actualizado al archivo JSON
+// Serializa y escribe el vector de usuarios al archivo usuarios.json
+// Incluye los campos especificos de cada subtipo mediante static_cast
 void GestorArchivos::guardarUsuarios(const std::vector<Usuario*>& usuariosList) const {
-    std::ofstream archivo(rutaData + "/usuarios.json");
-    if (!archivo.is_open()) return;
-    archivo << "{\n  \"usuarios\": [\n";
-    for (size_t i = 0; i < usuariosList.size(); ++i) {
-        Usuario* u = usuariosList[i];
-        archivo << "    {\n"
-                << "      \"idUsuario\": "  << u->getIdUsuario() << ",\n"
-                << "      \"nombre\": \""   << u->getNombre()    << "\",\n"
-                << "      \"telefono\": \"" << u->getTelefono()  << "\",\n"
-                << "      \"correo\": \""   << u->getCorreo()    << "\",\n"
-                << "      \"tipo\": \""     << u->getTipo()      << "\"";
+    json j;
+    j["usuarios"] = json::array();
+    for (const Usuario* u : usuariosList) {
+        // Campos comunes a todos los tipos de usuario
+        json obj = {
+            {"idUsuario", u->getIdUsuario()},
+            {"nombre",    u->getNombre()},
+            {"telefono",  u->getTelefono()},
+            {"correo",    u->getCorreo()},
+            {"tipo",      u->getTipo()}
+        };
+        // Campos especificos segun el subtipo
         if (u->getTipo() == "Estudiante") {
-            Estudiante* e = static_cast<Estudiante*>(u);
-            archivo << ",\n      \"codigoEstudiantil\": " << e->getCodigoEstudiantil()
-                    << ",\n      \"facultad\": \""  << e->getFacultad()  << "\""
-                    << ",\n      \"programa\": \""  << e->getPrograma()  << "\""
-                    << ",\n      \"semestre\": "    << e->getSemestre()
-                    << ",\n      \"carnetActivo\": "<< (e->isCarnetActivo() ? "true" : "false");
+            const Estudiante* e = static_cast<const Estudiante*>(u);
+            obj["codigoEstudiantil"] = e->getCodigoEstudiantil();
+            obj["facultad"]          = e->getFacultad();
+            obj["programa"]          = e->getPrograma();
+            obj["semestre"]          = e->getSemestre();
+            obj["carnetActivo"]      = e->isCarnetActivo();
         } else if (u->getTipo() == "Administrador") {
-            Administrador* a = static_cast<Administrador*>(u);
-            archivo << ",\n      \"codigoAdmin\": " << a->getCodigoAdmin();
+            const Administrador* a = static_cast<const Administrador*>(u);
+            obj["codigoAdmin"] = a->getCodigoAdmin();
         } else if (u->getTipo() == "Conductor") {
-            Conductor* c = static_cast<Conductor*>(u);
-            archivo << ",\n      \"codigoOperador\": " << c->getCodigoOperador()
-                    << ",\n      \"experiencia\": \""  << c->getExperiencia() << "\""
-                    << ",\n      \"turno\": \""        << c->getTurno()       << "\""
-                    << ",\n      \"busAsignado\": "    << c->getBusAsignado();
+            const Conductor* c = static_cast<const Conductor*>(u);
+            obj["codigoOperador"] = c->getCodigoOperador();
+            obj["experiencia"]    = c->getExperiencia();
+            obj["turno"]          = c->getTurno();
+            obj["busAsignado"]    = c->getBusAsignado();
         }
-        archivo << "\n    }" << (i + 1 < usuariosList.size() ? "," : "") << "\n";
+        j["usuarios"].push_back(obj);
     }
-    archivo << "  ]\n}\n";
+    std::ofstream archivo(rutaData + "/usuarios.json");
+    if (archivo.is_open()) archivo << j.dump(2);
 }
 
-// Escribe el vector de rutas actualizado al archivo JSON
+// Serializa y escribe el vector de rutas al archivo rutas.json pSalida
 void GestorArchivos::guardarRutas(const std::vector<Ruta*>& rutasList) const {
-    std::ofstream archivo(rutaData + "/rutas.json");
-    if (!archivo.is_open()) return;
-    archivo << "{\n  \"rutas\": [\n";
-    for (size_t i = 0; i < rutasList.size(); ++i) {
-        Ruta* r = rutasList[i];
-        archivo << "    {\n"
-                << "      \"destino\": \""     << r->getDestino()     << "\",\n"
-                << "      \"estado\": "        << (r->getEstado() ? "true" : "false") << ",\n"
-                << "      \"horarios\": {\n"
-                << "        \"salidasBarrio\": [";
-        const std::vector<std::string>& sb = r->getHorario().getSalidasBarrio();
-        for (size_t j = 0; j < sb.size(); ++j) archivo << "\"" << sb[j] << "\"" << (j+1<sb.size()?",":"");
-        archivo << "],\n        \"salidasUnillanos\": [";
-        const std::vector<std::string>& su = r->getHorario().getSalidasUnillanos();
-        for (size_t j = 0; j < su.size(); ++j) archivo << "\"" << su[j] << "\"" << (j+1<su.size()?",":"");
-        archivo << "]\n      },\n"
-                << "      \"idRuta\": "        << r->getIdRuta()      << ",\n"
-                << "      \"nombre\": \""      << r->getNombre()      << "\",\n"
-                << "      \"origen\": \""      << r->getOrigen()      << "\",\n";
-        const std::vector<int>& ids = r->getIdsParadas();
-        archivo << "      \"paradas\": [";
-        for (size_t j = 0; j < ids.size(); ++j) archivo << ids[j] << (j+1<ids.size()?", ":"");
-        archivo << "],\n"
-                << "      \"tipo\": \""        << r->getTipo()        << "\",\n"
-                << "      \"puntoSalida\": ";
-        if (r->getPuntoSalida().empty()) archivo << "null";
-        else archivo << "\"" << r->getPuntoSalida() << "\"";
+    json j;
+    j["rutas"] = json::array();
+    for (const Ruta* r : rutasList) {
+        // Construye el objeto de horarios con sus dos arrays
+        json horarios = {
+            {"salidasBarrio",    r->getHorario().getSalidasBarrio()},
+            {"salidasUnillanos", r->getHorario().getSalidasUnillanos()}
+        };
+        json obj = {
+            {"destino",     r->getDestino()},
+            {"estado",      r->getEstado()},
+            {"horarios",    horarios},
+            {"idRuta",      r->getIdRuta()},
+            {"nombre",      r->getNombre()},
+            {"origen",      r->getOrigen()},
+            {"paradas",     r->getIdsParadas()},
+            {"tipo",        r->getTipo()},
+            {"puntoSalida", r->getPuntoSalida().empty() ? json(nullptr) : json(r->getPuntoSalida())}
+        };
+        // Campo exclusivo de RutaCentro
         if (r->getTipo() == "RutaCentro") {
-            RutaCentro* rc = static_cast<RutaCentro*>(r);
-            archivo << ",\n      \"zonaCentro\": \"" << rc->getZonaCentro() << "\"";
+            const RutaCentro* rc = static_cast<const RutaCentro*>(r);
+            obj["zonaCentro"] = rc->getZonaCentro();
         }
-        archivo << "\n    }" << (i + 1 < rutasList.size() ? "," : "") << "\n";
+        j["rutas"].push_back(obj);
     }
-    archivo << "  ]\n}\n";
+    std::ofstream archivo(rutaData + "/rutas.json");
+    if (archivo.is_open()) archivo << j.dump(2);
 }

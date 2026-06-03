@@ -12,19 +12,10 @@
 #include "Conductor.h"
 #include "Administrador.h"
 
-// Gestiona la lectura y escritura de todos los archivos JSON del sistema
+// Gestiona la lectura y escritura de todos los archivos JSON usando nlohmann/json
 class GestorArchivos {
 private:
     std::string rutaData; // directorio base donde estan los JSON
-
-    // Extrae el valor de una clave JSON de tipo string en una linea dada
-    std::string extraerString(const std::string& linea, const std::string& clave) const;
-
-    // Extrae el valor de una clave JSON de tipo numerico en una linea dada
-    double extraerNumero(const std::string& linea, const std::string& clave) const;
-
-    // Extrae el valor booleano de una clave JSON en una linea dada
-    bool extraerBool(const std::string& linea, const std::string& clave) const;
 
 public:
     explicit GestorArchivos(const std::string& dirData);
@@ -47,7 +38,7 @@ public:
     // Guarda el estado actualizado de incidentes al archivo incidentes.json
     void guardarIncidentes(const std::vector<Incidente>& incidentes) const;
 
-    // Guarda los buses actualizados (capacidad, estado) al archivo buses.json
+    // Guarda los buses actualizados al archivo buses.json
     void guardarBuses(const std::vector<Bus>& buses) const;
 
     // Guarda los usuarios actualizados al archivo usuarios.json

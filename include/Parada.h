@@ -12,7 +12,6 @@ private:
     bool estado;      // true = activa
     int ordenEnRuta;  // posición dentro de la ruta
 
-
 public:
     Parada();
     Parada(int id, const std::string& nom, double lat, double lon,
@@ -25,7 +24,6 @@ public:
     double getAltitud() const;
     bool getEstado() const;
     int getOrdenEnRuta() const;
-
 
     // Setters
     void setIdParada(int id);

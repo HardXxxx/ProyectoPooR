@@ -23,7 +23,6 @@ public:
     std::string getCorreo() const;
     std::string getTipo() const;
 
-
     // Setters
     void setIdUsuario(int id);
     void setNombre(const std::string& nom);

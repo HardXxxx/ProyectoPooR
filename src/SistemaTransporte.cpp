@@ -537,25 +537,9 @@ void SistemaTransporte::gestionarUsuarios() {
                   << "  Nombre: " << u->getNombre()
                   << "  Tipo: " << u->getTipo() << '\n';
     }
-    std::cout << "\nIngrese ID de usuario para modificar semestre (0 para cancelar): ";
-    int id = 0;
-    std::cin >> id;
-    std::cin.ignore(100, '\n');
-    if (id > 0) {
-        for (Usuario* u : usuarios) {
-            if (u->getIdUsuario() == id && u->getTipo() == "Estudiante") {
-                Estudiante* e = static_cast<Estudiante*>(u);
-                std::cout << "Semestre actual: " << e->getSemestre() << "\nNuevo semestre: ";
-                int sem = 0; std::cin >> sem; std::cin.ignore(100, '\n');
-                e->setSemestre(sem);
-                gestor.guardarUsuarios(usuarios);
-                setColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                std::cout << "\n  [OK] Semestre actualizado y guardado.\n";
-                setColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-                break;
-            }
-        }
-    }
+    std::cout << "\n[ Informacion de usuarios mostrada.]\n";
+    std::cout << "\n[Presione 'Enter' para continuar]";
+    std::cin.get();
     Sleep(1500);
 }
 

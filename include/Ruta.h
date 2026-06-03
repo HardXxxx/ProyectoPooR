@@ -4,7 +4,8 @@
 #include "HorarioRuta.h"
 #include "Parada.h"
 
-// Clase base para todos los tipos de ruta del sistema
+// Clase base para todos los tipos de ruta del sistema 
+
 class Ruta {
 private:
     int idRuta;
@@ -32,8 +33,8 @@ public:
     bool getEstado() const;
     std::string getTipo() const;
     std::string getPuntoSalida() const;
-
-    HorarioRuta& getHorario();
+    HorarioRuta& getHorario(); 
+    const HorarioRuta& getHorario() const;
     const std::vector<int>& getIdsParadas() const;
 
     // Setters

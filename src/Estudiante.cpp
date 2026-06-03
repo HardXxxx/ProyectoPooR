@@ -25,7 +25,6 @@ std::string Estudiante::getEncabezado() const {
     return "Usuario: " + getNombre() + " (Estudiante - " + programa + ")";
 }
   
-
 // Valida que el codigo ingresado coincida con el codigo estudiantil
 bool Estudiante::validarCodigo(int c) const {
     return c == codigoEstudiantil;

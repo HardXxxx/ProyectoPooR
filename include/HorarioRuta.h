@@ -12,7 +12,7 @@ public:
     HorarioRuta();
 
     // Getters
-    const std::vector<std::string>& getSalidasBarrio() const;
+    const std::vector<std::string>& getSalidasBarrio()    const;
     const std::vector<std::string>& getSalidasUnillanos() const;
 
     // Setters
@@ -27,3 +27,5 @@ public:
     std::string formatearBarrio()     const;
     std::string formatearUnillanos()  const;
 };
+
+

@@ -20,7 +20,6 @@ public:
     std::string getTipo() const;
     std::string getEstado() const;
 
-
     // Setters
     void setIdIncidente(int id);
     void setDescripcion(const std::string& desc);
