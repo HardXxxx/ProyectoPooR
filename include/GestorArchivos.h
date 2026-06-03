@@ -35,6 +35,8 @@ public:
     // Lee el archivo usuarios.json y retorna punteros polimorficos a usuarios
     std::vector<Usuario*> cargarUsuarios() const;
 
+    HorarioRuta cargarHorariosPorDefecto() const;
+    
     // Guarda el estado actualizado de incidentes al archivo incidentes.json
     void guardarIncidentes(const std::vector<Incidente>& incidentes) const;
 

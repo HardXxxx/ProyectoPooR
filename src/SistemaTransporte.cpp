@@ -461,7 +461,7 @@ void SistemaTransporte::iniciar() {
     incidentes = gestor.cargarIncidentes(); rutas = gestor.cargarRutas(); usuarios = gestor.cargarUsuarios();
     
     SetConsoleTitle("Sistema de Gestion de Transporte - Unillanos");
-    SetConsoleOutputCP(1252); SetConsoleCP(1252);
+    SetConsoleOutputCP(65001); SetConsoleCP(65001); 
     
     while (true) {
         usuarioActual = nullptr;

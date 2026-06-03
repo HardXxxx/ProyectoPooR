@@ -3,27 +3,12 @@
     {
       "destino": "Universidad de los Llanos",
       "estado": true,
-      "horarios": {
-        "salidasBarrio": [
-          "05:10:00",
-          "06:10:00",
-          "07:10:00",
-          "08:20:00",
-          "13:20:00"
-        ],
-        "salidasUnillanos": [
-          "12:00:00",
-          "16:00:00",
-          "17:00:00",
-          "18:10:00"
-        ]
-      },
       "idRuta": 1,
       "nombre": "Unillanos - Amarilo",
       "origen": "Barrio Amarilo",
       "paradas": [1, 2],
       "tipo": "RutaBarrio",
-      "puntoSalida": "Paradero Amarilo diagonal a droguería Farmameta"
+      "puntoSalida": "Paradero Amarilo diagonal a drogueria Farmameta"
     },
     {
       "destino": "Universidad de los Llanos",

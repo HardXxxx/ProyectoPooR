@@ -69,17 +69,42 @@ std::vector<Incidente> GestorArchivos::cargarIncidentes() const {
     return lista;
 }
 
+// Lee horarios.json y construye un objeto HorarioRuta con la configuracion global
+HorarioRuta GestorArchivos::cargarHorariosPorDefecto() const {
+    HorarioRuta global;
+    std::ifstream archivo(rutaData + "/horarios.json");
+    if (!archivo.is_open()) return global;
+
+    json j = json::parse(archivo);
+    if (j.contains("configuracionHorarios")) {
+        const auto& conf = j["configuracionHorarios"];
+        if (conf.contains("salidasBarrio") && conf["salidasBarrio"].is_array()) {
+            for (const auto& h : conf["salidasBarrio"]) {
+                global.agregarSalidaBarrio(h.get<std::string>());
+            }
+        }
+        if (conf.contains("salidasUnillanos") && conf["salidasUnillanos"].is_array()) {
+            for (const auto& h : conf["salidasUnillanos"]) {
+                global.agregarSalidaUnillanos(h.get<std::string>());
+            }
+        }
+    }
+    return global;
+}
+
 // Lee rutas.json y retorna punteros polimorficos segun el tipo de ruta
 std::vector<Ruta*> GestorArchivos::cargarRutas() const {
     std::vector<Ruta*> lista;
     std::ifstream archivo(rutaData + "/rutas.json");
     if (!archivo.is_open()) return lista;
 
+    HorarioRuta horarioGlobal = cargarHorariosPorDefecto();
+
     json j = json::parse(archivo);
     for (const auto& r : j["rutas"]) {
         std::string tipo    = r["tipo"].get<std::string>();
-        // puntoSalida puede ser null en el JSON
-        std::string pSalida = r["puntoSalida"].is_null() ? "" : r["puntoSalida"].get<std::string>();
+        // puntoSalida puede ser null o no existir en el JSON
+        std::string pSalida = (r.contains("puntoSalida") && !r["puntoSalida"].is_null()) ? r["puntoSalida"].get<std::string>() : "";
         // zonaCentro solo existe en RutaCentro
         std::string zona    = r.value("zonaCentro", "");
 
@@ -102,8 +127,8 @@ std::vector<Ruta*> GestorArchivos::cargarRutas() const {
         for (int idP : r["paradas"])
             ruta->agregarParada(idP);
 
-        // Carga los horarios si el objeto existe y tiene contenido
-        if (r["horarios"].is_object()) {
+        // Carga los horarios si el objeto existe y tiene contenido, sino usa el global
+        if (r.contains("horarios") && r["horarios"].is_object() && !r["horarios"].empty()) {
             const auto& hor = r["horarios"];
             if (hor.contains("salidasBarrio") && hor["salidasBarrio"].is_array())
                 for (const auto& h : hor["salidasBarrio"])
@@ -111,6 +136,8 @@ std::vector<Ruta*> GestorArchivos::cargarRutas() const {
             if (hor.contains("salidasUnillanos") && hor["salidasUnillanos"].is_array())
                 for (const auto& h : hor["salidasUnillanos"])
                     ruta->getHorario().agregarSalidaUnillanos(h.get<std::string>());
+        } else {
+            ruta->getHorario() = horarioGlobal;
         }
 
         lista.push_back(ruta);
