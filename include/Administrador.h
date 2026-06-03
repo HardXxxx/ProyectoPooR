@@ -2,6 +2,7 @@
 #include "Usuario.h"
 
 // Representa al administrador del sistema con acceso total
+// Administrador solo representa un usuario, no maneja la lógica del sistema
 class Administrador : public Usuario {
 private:
     int codigoAdmin;
